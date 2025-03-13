@@ -46,7 +46,7 @@ const TodoPage = () => {
                 toggleComplete={toggleComplete} 
             />
             {!isAdding && (
-                <button onClick={() => setIsAdding(true)}>+ 새로운 미리 알림</button>
+                <button className="addTodo-button" onClick={() => setIsAdding(true)}>+ 새로운 미리 알림</button>
             )}
             {isAdding && <div className="add-todo-overlay" onClick={() => setIsAdding(false)}></div>}
             {isAdding && <AddTodoForm addTodo={addTodo} onClose={() => setIsAdding(false)} />}
