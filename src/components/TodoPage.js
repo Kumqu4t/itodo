@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import TodoList from "./TodoList";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import AddTodoForm from "./AddTodoForm"
+import "../css/TodoPage.css"
 
 const TodoPage = () => {
     const [todos, setTodos] = useState([]);
-    const [newTodo, setNewTodo] = useState("");  // newTodo 상태 추가
-    const [newDate, setNewDate] = useState("");  // 새로운 날짜 상태 추가
-
+    const [isAdding, setIsAdding] = useState(false);
+    
     useEffect(() => {
         const savedTodos = JSON.parse(localStorage.getItem("todos")) || [];
         console.log("로컬 스토리지: ", savedTodos);
@@ -21,20 +20,9 @@ const TodoPage = () => {
     }
 }, [todos]);
 
-    const addTodo = () => {
-        if (newTodo.trim() === "" || !newDate.length) {  // 빈 문자열 입력 방지
-            toast.error("할 일과 날짜를 모두 입력해 주세요.");
-            return;
-        }
-        const newTodoItem = {
-            id: Date.now(),  // 고유 id (현재 시간 기반)
-            text: newTodo,
-            completed: false,
-            date: newDate,
-        };
-        setTodos([newTodoItem, ...todos]);  // 새로운 todo 추가
-        setNewTodo("");  // 입력 초기화
-        setNewDate("");  // 입력 초기화
+
+    const addTodo = (newTodoItem) => {
+        setTodos([{ id: Date.now(), completed: false, ...newTodoItem }, ...todos]);
     };
 
     const deleteTodo = (id) => {
@@ -52,30 +40,16 @@ const TodoPage = () => {
     return (
         <div>
             <h1>Todo App</h1>
-            <input
-                type="text"
-                placeholder="할 일 입력"
-                value={newTodo}
-                onChange={(e) => setNewTodo(e.target.value)}  // newTodo 업데이트
-            />
-            <input
-                type="date"
-                value={newDate}
-                onChange={(e) => setNewDate(e.target.value)}  // 날짜 상태 업데이트
-            />
-            <button onClick={addTodo}>Add Todo</button>  {/* Add 버튼 클릭 시 todo 추가 */}
             <TodoList 
                 todos={todos} 
                 deleteTodo={deleteTodo} 
                 toggleComplete={toggleComplete} 
             />
-            <ToastContainer 
-                position="top-center"
-                style={{
-                    marginTop: '100px',
-                }}
-                autoClose={3000}
-            />
+            {!isAdding && (
+                <button onClick={() => setIsAdding(true)}>+ 새로운 미리 알림</button>
+            )}
+            {isAdding && <div className="add-todo-overlay" onClick={() => setIsAdding(false)}></div>}
+            {isAdding && <AddTodoForm addTodo={addTodo} onClose={() => setIsAdding(false)} />}
         </div>
     );
 };
