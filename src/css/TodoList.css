@@ -1,0 +1,39 @@
+/* To-Do 목록 */
+.todo-list {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+/* 완료 숨기기 버튼 */
+.showCompletedBtn {
+	display: flex;
+	align-self: flex-end;
+	margin-right: 20px;
+	margin-top: 10px;
+}
+.showCompletedBtn button {
+	padding: 8px 16px;
+	border: none;
+	background-color: #007bff;
+	color: white;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease-in-out;
+}
+
+.showCompletedBtn button:hover {
+	background-color: #0056b3;
+}
+
+.todo-list-container {
+	display: flex;
+	flex-direction: column;
+	flex-basis: 100%; /* 기본 크기를 설정 */
+	margin-right: 30px;
+	position: relative;
+	box-sizing: border-box;
+}
+.todo-list-container h3 {
+	text-align: center;
+}
